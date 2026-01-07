@@ -51,9 +51,12 @@ export default function CustomOrdersPage() {
               { step: "4", title: "Delivery", desc: "Fresh cake delivered on your special day" },
             ].map((item, i) => (
               <div key={i} className="text-center">
-                <div className="inline-block w-16 h-16 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 text-white text-2xl font-bold flex items-center justify-center mb-4">
-                  {item.step}
+                <div className="inline-block w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-amber-600 to-orange-600 text-white text-2xl font-bold flex items-center justify-center mb-4">
+                  <div className={'flex justify-center items-center w-full h-full bg-amber-500 overflow-hidden rounded-full'}>
+                    {item.step}
+                  </div>
                 </div>
+
                 <h3 className="text-xl font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-foreground/60">{item.desc}</p>
               </div>
