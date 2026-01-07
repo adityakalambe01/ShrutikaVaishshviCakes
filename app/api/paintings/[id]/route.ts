@@ -1,39 +1,70 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import connectDB from "@/lib/mongodb"
 import { Painting } from "@/lib/models/Painting"
-import { Types } from "mongoose"
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+    request: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
   try {
     await connectDB()
     const data = await request.json()
+    const { id } = await context.params // ✅ FIX
 
-    const painting = await Painting.findByIdAndUpdate(new Types.ObjectId(params.id), data, { new: true })
+    const painting = await Painting.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    })
 
     if (!painting) {
-      return NextResponse.json({ error: "Painting not found" }, { status: 404 })
+      return NextResponse.json(
+          { error: "Painting not found" },
+          { status: 404 }
+      )
     }
 
     return NextResponse.json(painting)
   } catch (error) {
     console.error("Update error:", error)
-    return NextResponse.json({ error: "Failed to update painting" }, { status: 500 })
+    return NextResponse.json(
+        { error: "Failed to update painting" },
+        { status: 500 }
+    )
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+
+export async function DELETE(
+    request: NextRequest,
+    context: { params: Promise<{ id: string }> }
+) {
   try {
     await connectDB()
 
-    const painting = await Painting.findByIdAndDelete(new Types.ObjectId(params.id))
+    const { id } = await context.params // ✅ FIX
+
+    if (!id) {
+      return NextResponse.json(
+          { error: "Painting ID is required" },
+          { status: 400 }
+      )
+    }
+
+    const painting = await Painting.findByIdAndDelete(id)
 
     if (!painting) {
-      return NextResponse.json({ error: "Painting not found" }, { status: 404 })
+      return NextResponse.json(
+          { error: "Painting not found" },
+          { status: 404 }
+      )
     }
 
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Delete error:", error)
-    return NextResponse.json({ error: "Failed to delete painting" }, { status: 500 })
+    return NextResponse.json(
+        { error: "Failed to delete painting" },
+        { status: 500 }
+    )
   }
 }
