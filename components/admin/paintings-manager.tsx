@@ -262,15 +262,14 @@ export default function PaintingsManager() {
             Paintings Gallery
           </h2>
 
-          {loading ? (
-              <p className="text-amber-700">Loading...</p>
-          ) : (
+
               <PaintingsTable
                   paintings={paintings}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
+                  loading={loading}
               />
-          )}
+
         </div>
       </div>
   )
