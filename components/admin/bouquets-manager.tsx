@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
+import BouquetsTable from "@/components/admin/BouquetsTable";
 
 interface Bouquet {
   _id?: string
@@ -252,58 +253,13 @@ export default function BouquetsManager() {
             Bouquets Gallery
           </h2>
 
-          {loading ? (
-              <p className="text-amber-700">Loading...</p>
-          ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {bouquets.map((b) => (
-                    <Card key={b._id} className="overflow-hidden border-amber-200">
-                      <div className="aspect-square bg-amber-50">
-                        <img
-                            src={b.imageUrl}
-                            alt={b.name}
-                            className="w-full h-full object-cover"
-                        />
-                      </div>
+          <BouquetsTable
+              bouquets={bouquets}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              loading={loading}
+          />
 
-                      <div className="p-4">
-                        <h3 className="font-bold text-amber-900">{b.name}</h3>
-                        <p className="text-sm text-gray-600">{b.chocolateType}</p>
-                        <p className="text-sm text-gray-600">
-                          Size: {b.size}
-                        </p>
-                        {b.occasion && (
-                            <p className="text-sm text-gray-600">
-                              Occasion: {b.occasion}
-                            </p>
-                        )}
-                        <p className="font-bold text-amber-600 my-2">
-                          ₹{b.price}
-                        </p>
-
-                        <div className="flex gap-2">
-                          <Button
-                              onClick={() => handleEdit(b)}
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                              onClick={() => handleDelete(b._id)}
-                              size="sm"
-                              variant="destructive"
-                              className="flex-1"
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                ))}
-              </div>
-          )}
         </div>
       </div>
   )
