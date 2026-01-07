@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
+import CakesTable from "@/components/admin/CakesTable";
 
 interface Cake {
   _id?: string
@@ -286,52 +287,13 @@ export default function CakesManager() {
             Cakes Gallery
           </h2>
 
-          {loading ? (
-              <p className="text-amber-700">Loading...</p>
-          ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {cakes.map((cake) => (
-                    <Card key={cake._id} className="overflow-hidden border-amber-200">
-                      <div className="aspect-square bg-amber-50">
-                        <img
-                            src={cake.imageUrl || "/placeholder.svg"}
-                            alt={cake.name}
-                            className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-bold text-amber-900">{cake.name}</h3>
-                        <p className="text-sm text-amber-700">{cake.flavor}</p>
-                        <p className="text-sm text-gray-600 my-2">
-                          {cake.description.slice(0, 50)}...
-                        </p>
-                        <p className="font-bold text-amber-600 mb-3">
-                          ₹{cake.price}
-                        </p>
+          <CakesTable
+              cakes={cakes}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              loading={loading}
+          />
 
-                        <div className="flex gap-2">
-                          <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1"
-                              onClick={() => handleEdit(cake)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                              size="sm"
-                              variant="destructive"
-                              className="flex-1"
-                              onClick={() => handleDelete(cake._id)}
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </div>
-                    </Card>
-                ))}
-              </div>
-          )}
         </div>
       </div>
   )
