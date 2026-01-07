@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
 
 interface Bouquet {
-  id?: string
+  _id?: string
   name: string
   description: string
   price: number
@@ -56,7 +56,7 @@ export default function BouquetsManager() {
 
     try {
       if (editing) {
-        await fetch(`/api/bouquets/${editing.id}`, {
+        await fetch(`/api/bouquets/${editing._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
@@ -257,7 +257,7 @@ export default function BouquetsManager() {
           ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {bouquets.map((b) => (
-                    <Card key={b.id} className="overflow-hidden border-amber-200">
+                    <Card key={b._id} className="overflow-hidden border-amber-200">
                       <div className="aspect-square bg-amber-50">
                         <img
                             src={b.imageUrl}
@@ -291,7 +291,7 @@ export default function BouquetsManager() {
                             Edit
                           </Button>
                           <Button
-                              onClick={() => handleDelete(b.id)}
+                              onClick={() => handleDelete(b._id)}
                               size="sm"
                               variant="destructive"
                               className="flex-1"
