@@ -6,6 +6,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
+import PaintingsTable from "@/components/admin/PaintingsTable";
+
+const PAINTING_MEDIUMS = [
+  "Oil on Canvas",
+  "Acrylic on Canvas",
+  "Watercolor on Paper",
+  "Charcoal on Paper",
+  "Ink on Paper",
+  "Mixed Media",
+  "Digital Art",
+]
+
 
 interface Painting {
   id?: string
@@ -17,6 +29,8 @@ interface Painting {
   medium: string
   dimensions: string
 }
+
+
 
 export default function PaintingsManager() {
   const [paintings, setPaintings] = useState<Painting[]>([])
@@ -163,14 +177,26 @@ export default function PaintingsManager() {
             <label className="block text-sm font-medium text-amber-900 mb-1">
               Medium
             </label>
-            <Input
-              placeholder="e.g. Oil on Canvas"
-              value={formData.medium}
-              onChange={(e) =>
-                setFormData({ ...formData, medium: e.target.value })
-              }
-              required
-            />
+            <select
+                value={formData.medium}
+                onChange={(e) =>
+                    setFormData({ ...formData, medium: e.target.value })
+                }
+                required
+                className="w-full px-3 py-2 border border-amber-200 rounded-lg
+               focus:outline-none focus:ring-2 focus:ring-amber-500
+               bg-white text-sm"
+            >
+              <option value="" disabled>
+                Select Medium
+              </option>
+
+              {PAINTING_MEDIUMS.map((medium) => (
+                  <option key={medium} value={medium}>
+                    {medium}
+                  </option>
+              ))}
+            </select>
           </div>
 
           <div>
@@ -224,45 +250,12 @@ export default function PaintingsManager() {
   {loading ? (
     <p className="text-amber-700">Loading...</p>
   ) : (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  {paintings.map((painting) => (
-    <Card key={painting.id} className="overflow-hidden border-amber-200 flex flex-col">
-  {/* Square image container */}
-  <div className="w-full aspect-square bg-amber-50">
-    {painting.imageUrl ? (
-      <img
-        src={painting.imageUrl}
-        alt={painting.title}
-        className="w-full h-full object-cover"
+      <PaintingsTable
+          paintings={paintings}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
       />
-    ) : (
-      <div className="w-full h-full bg-gray-100" />
-    )}
-  </div>
 
-  {/* Card content */}
-  <div className="p-4 flex flex-col flex-1">
-    <h3 className="font-bold text-amber-900">{painting.title}</h3>
-    <p className="text-sm text-amber-700">by {painting.artist}</p>
-    <p className="text-sm text-gray-600">{painting.medium}</p>
-    <p className="text-sm text-gray-600">{painting.dimensions}</p>
-    <p className="text-sm text-gray-600 mt-2">
-      {painting.description.slice(0, 50)}...
-    </p>
-    <p className="font-bold text-amber-600 mb-3">₹{painting.price}</p>
-
-    <div className="flex gap-2 mt-auto">
-      <Button onClick={() => handleEdit(painting)} variant="outline" size="sm" className="flex-1 border-amber-300">
-        Edit
-      </Button>
-      <Button onClick={() => handleDelete(painting.id)} size="sm" variant="destructive" className="flex-1">
-        Delete
-      </Button>
-    </div>
-  </div>
-</Card>
-  ))}
-</div>
 
   )}
 </div>
