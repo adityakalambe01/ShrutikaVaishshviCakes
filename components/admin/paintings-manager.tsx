@@ -7,7 +7,16 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
 import PaintingsTable from "@/components/admin/PaintingsTable"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog"
 
+/* ---------- CONSTANTS ---------- */
 const PAINTING_MEDIUMS = [
   "Oil on Canvas",
   "Acrylic on Canvas",
@@ -18,6 +27,7 @@ const PAINTING_MEDIUMS = [
   "Digital Art",
 ]
 
+/* ---------- TYPES ---------- */
 interface Painting {
   _id?: string
   title: string
@@ -32,7 +42,7 @@ interface Painting {
 interface PaintingForm {
   title: string
   description: string
-  price: string // 👈 IMPORTANT: string while typing
+  price: string
   imageUrl: string
   artist: string
   medium: string
@@ -43,6 +53,7 @@ export default function PaintingsManager() {
   const [paintings, setPaintings] = useState<Painting[]>([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<Painting | null>(null)
+  const [open, setOpen] = useState(false)
 
   const [formData, setFormData] = useState<PaintingForm>({
     title: "",
@@ -54,6 +65,7 @@ export default function PaintingsManager() {
     dimensions: "",
   })
 
+  /* ---------- FETCH ---------- */
   useEffect(() => {
     fetchPaintings()
   }, [])
@@ -70,17 +82,18 @@ export default function PaintingsManager() {
     }
   }
 
+  /* ---------- ACTIONS ---------- */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!formData.imageUrl) {
-      alert("Please upload an image before submitting")
+      alert("Please upload an image")
       return
     }
 
     const payload = {
       ...formData,
-      price: Number(formData.price), // ✅ convert ONLY here
+      price: Number(formData.price),
     }
 
     try {
@@ -100,6 +113,7 @@ export default function PaintingsManager() {
 
       await fetchPaintings()
       resetForm()
+      setOpen(false)
     } catch (err) {
       console.error("Failed to save painting:", err)
     }
@@ -107,12 +121,8 @@ export default function PaintingsManager() {
 
   const handleDelete = async (id?: string) => {
     if (!id) return
-    try {
-      await fetch(`/api/paintings/${id}`, { method: "DELETE" })
-      fetchPaintings()
-    } catch (err) {
-      console.error("Failed to delete painting:", err)
-    }
+    await fetch(`/api/paintings/${id}`, { method: "DELETE" })
+    fetchPaintings()
   }
 
   const handleEdit = (painting: Painting) => {
@@ -126,6 +136,7 @@ export default function PaintingsManager() {
       medium: painting.medium,
       dimensions: painting.dimensions,
     })
+    setOpen(true)
   }
 
   const resetForm = () => {
@@ -143,134 +154,169 @@ export default function PaintingsManager() {
 
   return (
       <div className="space-y-6">
-        {/* FORM */}
-        <Card className="p-6 bg-white border-amber-200">
-          <h2 className="text-2xl font-bold text-amber-900 mb-4">
-            {editing ? "Edit Painting" : "Add New Painting"}
-          </h2>
+        {/* HEADER */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-amber-900">Paintings</h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-amber-900 mb-1">
-                Painting Title
-              </label>
-              <Input
-                  value={formData.title}
-                  onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                  }
-                  required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-amber-900 mb-1">
-                Price (₹)
-              </label>
-              <Input
-                  type="text"
-                  value={formData.price}
-                  onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
-                  }
-                  required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-amber-900 mb-1">
-                Description
-              </label>
-              <textarea
-                  rows={3}
-                  value={formData.description}
-                  onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                  }
-                  required
-                  className="w-full px-3 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-amber-900 mb-1">
-                Medium
-              </label>
-              <select
-                  value={formData.medium}
-                  onChange={(e) =>
-                      setFormData({ ...formData, medium: e.target.value })
-                  }
-                  required
-                  className="w-full px-3 py-2 border border-amber-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button
+                  className="bg-amber-600"
+                  onClick={() => {
+                    resetForm()
+                    setOpen(true)
+                  }}
               >
-                <option value="" disabled>
-                  Select Medium
-                </option>
-                {PAINTING_MEDIUMS.map((medium) => (
-                    <option key={medium} value={medium}>
-                      {medium}
-                    </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-amber-900 mb-1">
-                Dimensions
-              </label>
-              <Input
-                  placeholder="e.g. 24 x 36 inches"
-                  value={formData.dimensions}
-                  onChange={(e) =>
-                      setFormData({ ...formData, dimensions: e.target.value })
-                  }
-                  required
-              />
-            </div>
-
-            <ImageUpload
-                label="Painting Image"
-                currentImage={formData.imageUrl}
-                onUploadComplete={(url) =>
-                    setFormData({ ...formData, imageUrl: url })
-                }
-            />
-
-            <div className="flex gap-3">
-              <Button type="submit" className="flex-1 bg-amber-600 hover:bg-amber-700">
-                {editing ? "Update Painting" : "Add Painting"}
+                Add Painting
               </Button>
+            </DialogTrigger>
 
-              {editing && (
+            <DialogContent className="sm:max-w-2xl max-h-[70vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  {editing ? "Edit Painting" : "Add New Painting"}
+                </DialogTitle>
+              </DialogHeader>
+
+              {/* FORM */}
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* BASIC INFO */}
+                <Card className="p-4 border-amber-200 bg-white">
+                  <h3 className="text-sm font-semibold text-amber-900 mb-3">
+                    Basic Information
+                  </h3>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-medium text-amber-900">
+                        Painting Title
+                      </label>
+                      <Input
+                          value={formData.title}
+                          onChange={(e) =>
+                              setFormData({ ...formData, title: e.target.value })
+                          }
+                          required
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-medium text-amber-900">
+                        Price (₹)
+                      </label>
+                      <Input
+                          type="text"
+                          value={formData.price}
+                          onChange={(e) =>
+                              setFormData({ ...formData, price: e.target.value })
+                          }
+                          required
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-medium text-amber-900">
+                        Medium
+                      </label>
+                      <select
+                          value={formData.medium}
+                          onChange={(e) =>
+                              setFormData({ ...formData, medium: e.target.value })
+                          }
+                          className="h-10 w-full rounded-lg border border-amber-200 bg-white px-3 text-sm focus:ring-2 focus:ring-amber-500"
+                          required
+                      >
+                        <option value="" disabled>
+                          Select Medium
+                        </option>
+                        {PAINTING_MEDIUMS.map((m) => (
+                            <option key={m} value={m}>
+                              {m}
+                            </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-medium text-amber-900">
+                        Dimensions
+                      </label>
+                      <Input
+                          placeholder="24 x 36 inches"
+                          value={formData.dimensions}
+                          onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                dimensions: e.target.value,
+                              })
+                          }
+                          required
+                      />
+                    </div>
+                  </div>
+                </Card>
+
+                {/* DESCRIPTION */}
+                <Card className="p-4 border-amber-200 bg-white">
+                  <div className="space-y-1">
+                    <label className="text-xs font-medium text-amber-900">
+                      Description
+                    </label>
+                    <textarea
+                        rows={3}
+                        value={formData.description}
+                        onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              description: e.target.value,
+                            })
+                        }
+                        className="w-full rounded-lg border border-amber-200 px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500"
+                        required
+                    />
+                  </div>
+                </Card>
+
+                {/* IMAGE */}
+                <Card className="p-4 border-amber-200 bg-white">
+                  <label className="text-xs font-medium text-amber-900 block mb-2">
+                    Painting Image
+                  </label>
+                  <ImageUpload
+                      currentImage={formData.imageUrl}
+                      onUploadComplete={(url) =>
+                          setFormData({ ...formData, imageUrl: url })
+                      }
+                  />
+                </Card>
+
+                {/* ACTIONS */}
+                <div className="flex gap-3 pt-2">
                   <Button
-                      type="button"
-                      variant="outline"
-                      onClick={resetForm}
-                      className="border-amber-300 bg-transparent"
+                      type="submit"
+                      className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600"
                   >
-                    Cancel
+                    {editing ? "Update Painting" : "Add Painting"}
                   </Button>
-              )}
-            </div>
-          </form>
-        </Card>
+
+                  <DialogClose asChild>
+                    <Button variant="outline" className="border-amber-300">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
 
         {/* TABLE */}
-        <div>
-          <h2 className="text-2xl font-bold text-amber-900 mb-4">
-            Paintings Gallery
-          </h2>
-
-
-              <PaintingsTable
-                  paintings={paintings}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                  loading={loading}
-              />
-
-        </div>
+        <PaintingsTable
+            paintings={paintings}
+            loading={loading}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+        />
       </div>
   )
 }
