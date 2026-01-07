@@ -4,7 +4,8 @@ import { useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
-interface Painting {
+/* ---------- TYPES ---------- */
+export interface Painting {
 	_id?: string
 	title: string
 	artist: string
@@ -15,15 +16,22 @@ interface Painting {
 	description: string
 }
 
-interface Props {
+interface PaintingsTableProps {
 	paintings: Painting[]
+	loading: boolean
 	onEdit: (painting: Painting) => void
 	onDelete: (id?: string) => void
 }
 
 const ITEMS_PER_PAGE = 5
 
-export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
+/* ---------- COMPONENT ---------- */
+export default function PaintingsTable({
+										   paintings,
+										   loading,
+										   onEdit,
+										   onDelete,
+									   }: PaintingsTableProps) {
 	const [search, setSearch] = useState("")
 	const [mediumFilter, setMediumFilter] = useState("all")
 	const [page, setPage] = useState(1)
@@ -49,9 +57,11 @@ export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
 		page * ITEMS_PER_PAGE
 	)
 
-	const uniqueMediums = Array.from(
-		new Set(paintings.map((p) => p.medium))
-	)
+	const uniqueMediums = Array.from(new Set(paintings.map((p) => p.medium)))
+
+	if (loading) {
+		return <p className="text-amber-700">Loading...</p>
+	}
 
 	return (
 		<div className="space-y-4">
@@ -73,7 +83,7 @@ export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
 						setMediumFilter(e.target.value)
 						setPage(1)
 					}}
-					className="border border-amber-200 rounded-lg px-3 py-2 text-sm"
+					className="border border-amber-200 rounded-lg px-3 py-2 text-sm bg-white"
 				>
 					<option value="all">All Mediums</option>
 					{uniqueMediums.map((m) => (
@@ -87,27 +97,27 @@ export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
 			{/* TABLE */}
 			<div className="overflow-x-auto border border-amber-200 rounded-lg">
 				<table className="w-full text-sm">
-					<thead className="bg-amber-50 text-amber-900">
+					<thead className="bg-amber-100 text-amber-900">
 					<tr>
 						<th className="p-3 text-left">Image</th>
 						<th className="p-3 text-left">Title</th>
 						<th className="p-3 text-left">Medium</th>
 						<th className="p-3 text-left">Dimensions</th>
 						<th className="p-3 text-left">Price</th>
-						<th className="p-3 text-left">Actions</th>
+						<th className="p-3 text-center">Actions</th>
 					</tr>
 					</thead>
 
-					<tbody>
+					<tbody className="divide-y divide-amber-200 bg-white">
 					{paginated.length === 0 ? (
 						<tr>
-							<td colSpan={6} className="p-4 text-center text-gray-500">
+							<td colSpan={6} className="p-6 text-center text-gray-500">
 								No paintings found
 							</td>
 						</tr>
 					) : (
 						paginated.map((p) => (
-							<tr key={p._id} className="border-t">
+							<tr key={p._id} className="hover:bg-amber-50">
 								<td className="p-3">
 									<div className="w-20 h-16 bg-amber-50 overflow-hidden rounded">
 										<img
@@ -117,19 +127,21 @@ export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
 										/>
 									</div>
 								</td>
+
 								<td className="p-3">
-									<p className="font-medium">{p.title}</p>
-									<p className="text-xs text-gray-500">
-										by {p.artist}
-									</p>
+									<p className="font-medium text-amber-900">{p.title}</p>
+									<p className="text-xs text-gray-500">by {p.artist}</p>
 								</td>
-								<td className="p-3">{p.medium}</td>
-								<td className="p-3">{p.dimensions}</td>
+
+								<td className="p-3 text-gray-700">{p.medium}</td>
+								<td className="p-3 text-gray-700">{p.dimensions}</td>
+
 								<td className="p-3 font-semibold text-amber-700">
 									₹{p.price}
 								</td>
+
 								<td className="p-3">
-									<div className="flex gap-2">
+									<div className="flex gap-2 justify-center">
 										<Button
 											size="sm"
 											variant="outline"
