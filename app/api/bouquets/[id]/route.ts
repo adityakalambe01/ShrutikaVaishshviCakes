@@ -3,12 +3,13 @@ import connectDB from "@/lib/mongodb"
 import { Bouquet } from "@/lib/models/Bouquet"
 import { Types } from "mongoose"
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await connectDB()
     const data = await request.json()
+    const { id } = await context.params
 
-    const bouquet = await Bouquet.findByIdAndUpdate(new Types.ObjectId(params.id), data, { new: true })
+    const bouquet = await Bouquet.findByIdAndUpdate(id, data, { new: true })
 
     if (!bouquet) {
       return NextResponse.json({ error: "Bouquet not found" }, { status: 404 })
@@ -21,11 +22,12 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     await connectDB()
+    const { id } = await context.params
 
-    const bouquet = await Bouquet.findByIdAndDelete(new Types.ObjectId(params.id))
+    const bouquet = await Bouquet.findByIdAndDelete(id)
 
     if (!bouquet) {
       return NextResponse.json({ error: "Bouquet not found" }, { status: 404 })
