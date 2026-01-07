@@ -261,7 +261,6 @@ export default function PaintingsManager() {
     </div>
   </div>
 </Card>
-2222222222
   ))}
 </div>
 
