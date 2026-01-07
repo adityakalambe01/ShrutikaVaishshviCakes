@@ -136,7 +136,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-xs text-white/10 hover:text-amber-200 transition-colors duration-500"
           >
-            developed by innodaredevil
+            developed by InnoDareDevil
           </a>
         </div>
       </div>
