@@ -125,8 +125,19 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 text-center text-white/60">
-          <p>&copy; 2026 Cake Artistry. All rights reserved. Crafted with passion by Shrutika & Vaishnavi.</p>
+        <div className="border-t border-white/10 pt-8 text-center text-white/60 space-y-2">
+          <p>
+            &copy; 2026 Cake Artistry. All rights reserved. Crafted with passion by Shrutika & Vaishnavi.
+          </p>
+
+          <a
+              href="https://www.instagram.com/adityakalambe01"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-white/10 hover:text-amber-200 transition-colors duration-500"
+          >
+            developed by innodaredevil
+          </a>
         </div>
       </div>
     </footer>
