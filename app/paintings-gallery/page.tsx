@@ -5,7 +5,7 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 
 interface Painting {
-  id: string
+  _id: string
   title: string
   artist: string
   price: number
@@ -88,7 +88,7 @@ export default function PaintingsGalleryPage() {
             <div className="grid md:grid-cols-3 gap-8">
               {paintings.map((painting) => (
                 <div
-                  key={painting.id}
+                  key={painting._id}
                   className="group overflow-hidden rounded-xl border border-amber-200 hover:border-amber-400 transition-all hover:shadow-xl"
                 >
                   <div className="relative h-64 overflow-hidden bg-muted">
