@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 interface Painting {
-	id?: string
+	_id?: string
 	title: string
 	artist: string
 	price: number
@@ -107,7 +107,7 @@ export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
 						</tr>
 					) : (
 						paginated.map((p) => (
-							<tr key={p.id} className="border-t">
+							<tr key={p._id} className="border-t">
 								<td className="p-3">
 									<div className="w-20 h-16 bg-amber-50 overflow-hidden rounded">
 										<img
@@ -140,7 +140,7 @@ export default function PaintingsTable({ paintings, onEdit, onDelete }: Props) {
 										<Button
 											size="sm"
 											variant="destructive"
-											onClick={() => onDelete(p.id)}
+											onClick={() => onDelete(p._id)}
 										>
 											Delete
 										</Button>
