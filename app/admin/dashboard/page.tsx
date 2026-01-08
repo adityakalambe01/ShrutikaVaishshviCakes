@@ -10,6 +10,8 @@ import {
   Palette,
   LogOut,
   Menu,
+  ShoppingBag,
+  MailOpen
 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
@@ -83,6 +85,18 @@ function SidebarContent({
               label="Paintings"
               active={active === "paintings"}
               onClick={() => setActive("paintings")}
+          />
+          <SidebarItem
+              icon={ShoppingBag}
+              label="Orders"
+              active={active === "orders"}
+              onClick={() => setActive("orders")}
+          />
+          <SidebarItem
+              icon={MailOpen}
+              label="Messages"
+              active={active === "messages"}
+              onClick={() => setActive("messages")}
           />
         </nav>
 
@@ -161,6 +175,8 @@ export default function AdminDashboard() {
             {active === "cakes" && <CakesManager />}
             {active === "bouquets" && <BouquetsManager />}
             {active === "paintings" && <PaintingsManager />}
+            {active === "orders" && <></>}
+            {active === "messages" && <></>}
           </main>
         </div>
       </div>
