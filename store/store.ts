@@ -1,10 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
 import websiteSettingsReducer from "./siteSettingsSlice";
+import cakeReducer from "./cakeSlice";
 
 
 export const store = configureStore({
 	reducer:{
-		websiteSettings: websiteSettingsReducer
+		websiteSettings: websiteSettingsReducer,
+		cakes: cakeReducer
 	}
 })
 
