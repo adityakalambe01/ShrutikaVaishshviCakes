@@ -6,6 +6,8 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import { Mail, Phone, MapPin, Clock } from "lucide-react"
 import { useState } from "react"
+import {useSelector} from "react-redux";
+import {RootState} from "@/store/store";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,6 +18,10 @@ export default function ContactPage() {
     message: "",
   })
 
+  const contactInfo = useSelector((state: RootState)=> {
+    const {email, phone, address} = state.websiteSettings;
+    return {email, phone, address};
+  })
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Contact form submitted:", formData)
@@ -40,9 +46,9 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {[
-              { icon: Mail, title: "Email", value: "hello@cakeartistry.com", href: "mailto:hello@cakeartistry.com" },
-              { icon: Phone, title: "Phone", value: "+1 (234) 567-890", href: "tel:+1234567890" },
-              { icon: MapPin, title: "Location", value: "123 Art Street, Creative City", href: "#" },
+              { icon: Mail, title: "Email", value: contactInfo.email || "hello@cakeartistry.com", href: `mailto:${contactInfo.email || "hello@cakeartistry.com"}` },
+              { icon: Phone, title: "Phone", value: contactInfo.phone || "+1 (234) 567-890", href: `tel:${contactInfo.phone || "+1 (234) 567-890"}` },
+              { icon: MapPin, title: "Location", value: contactInfo.address || "123 Art Street, Creative City", href: "#" },
             ].map((item, i) => {
               const Icon = item.icon
               return (

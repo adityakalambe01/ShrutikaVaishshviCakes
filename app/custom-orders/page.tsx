@@ -5,6 +5,8 @@ import type React from "react"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import { useState } from "react"
+import {useSelector} from "react-redux";
+import {RootState} from "@/store/store";
 
 export default function CustomOrdersPage() {
   const [formData, setFormData] = useState({
@@ -17,6 +19,11 @@ export default function CustomOrdersPage() {
     description: "",
     budget: "",
   })
+
+  const contactInfo = useSelector((state: RootState)=> {
+    const {email, phone} = state.websiteSettings;
+    return {email, phone};
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -234,13 +241,13 @@ export default function CustomOrdersPage() {
                 <div>
                   <p className="text-sm text-foreground/60 mb-1">Email</p>
                   <a href="mailto:orders@cakeartistry.com" className="text-amber-600 font-semibold hover:underline">
-                    orders@cakeartistry.com
+                    {contactInfo.email || "hello@cakeartistry.com"}
                   </a>
                 </div>
                 <div>
                   <p className="text-sm text-foreground/60 mb-1">Phone</p>
-                  <a href="tel:+1234567890" className="text-amber-600 font-semibold hover:underline">
-                    +1 (234) 567-890
+                  <a href={`tel:`+contactInfo.phone? contactInfo.phone: "+1234567890"} className="text-amber-600 font-semibold hover:underline">
+                    {contactInfo.phone || "+1 (234) 567-890"}
                   </a>
                 </div>
                 <div>
