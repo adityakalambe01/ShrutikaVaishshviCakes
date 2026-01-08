@@ -41,7 +41,7 @@ export default function Footer() {
             <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-amber-200 to-orange-200 bg-clip-text text-transparent">
               Cake Artistry
             </h3>
-            <p className="text-white/70">Handcrafted chocolate cakes and artistic creations by Shrutika & Vaishnavi.</p>
+            <p className="text-white/70">{siteSettings.aboutText || "Handcrafted chocolate cakes and artistic creations by Shrutika & Vaishnavi."}</p>
           </div>
 
           <div>
