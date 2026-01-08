@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
+import {Card, CardContent, CardFooter} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
 
 interface Cake {
   _id: string
@@ -101,42 +103,52 @@ export default function CakesGalleryPage() {
             ) : (
                 <div className="grid md:grid-cols-3 gap-8">
                   {filtered.map((cake) => (
-                      <div
+                      <Card
                           key={cake._id}
-                          className="group overflow-hidden rounded-xl border border-amber-200 hover:border-amber-400 transition-all hover:shadow-xl"
+                          className="group flex h-full flex-col overflow-hidden rounded-xl border border-amber-200 transition-all hover:border-amber-400 hover:shadow-xl"
                       >
-                        <div className="relative h-64 overflow-hidden bg-muted">
+                        {/* IMAGE */}
+                        <div className="relative h-64 w-full overflow-hidden bg-muted">
                           <img
                               src={cake.imageUrl || "/placeholder.svg"}
                               alt={cake.name}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                         </div>
 
-                        <div className="p-6 bg-white">
-                          <p className="text-sm text-amber-600 font-semibold mb-2 uppercase">
+                        {/* CONTENT */}
+                        <CardContent className="flex flex-1 flex-col p-6">
+                          <p className="mb-2 text-sm font-semibold uppercase text-amber-600">
                             {cake.category}
                           </p>
+
                           <h3 className="text-xl font-bold text-foreground mb-1">
                             {cake.name}
                           </h3>
+
                           <p className="text-sm text-foreground/60 mb-3">
                             {cake.flavor}
                           </p>
-                          <p className="text-foreground/60 text-sm mb-4">
+
+                          <p className="text-sm text-foreground/60 line-clamp-3">
                             {cake.description}
                           </p>
+                        </CardContent>
 
-                          <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold text-amber-600">
-                        ₹{cake.price}
-                      </span>
-                            <button className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-lg hover:shadow-lg transition-all text-sm">
-                              Order Now
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                        {/* FOOTER (ALWAYS AT BOTTOM) */}
+                        <CardFooter className="mt-auto flex items-center justify-between border-t border-amber-100 bg-white px-6 py-4">
+                          <span className="text-lg font-bold text-amber-600">
+                            ₹{cake.price}
+                          </span>
+
+                          <Button
+                              size="sm"
+                              className="bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:opacity-90"
+                          >
+                            Order Now
+                          </Button>
+                        </CardFooter>
+                      </Card>
                   ))}
                 </div>
             )}

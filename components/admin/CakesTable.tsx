@@ -3,6 +3,18 @@
 import { useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 /* ---------- TYPES ---------- */
 export interface Cake {
@@ -159,15 +171,43 @@ export default function CakesTable({
 										>
 											Edit
 										</Button>
-										<Button
-											size="sm"
-											variant="destructive"
-											onClick={() => onDelete(c._id)}
-										>
-											Delete
-										</Button>
+
+										<AlertDialog>
+											<AlertDialogTrigger asChild>
+												<Button size="sm" variant="destructive">
+													Delete
+												</Button>
+											</AlertDialogTrigger>
+
+											<AlertDialogContent>
+												<AlertDialogHeader>
+													<AlertDialogTitle>
+														Delete this cake?
+													</AlertDialogTitle>
+													<AlertDialogDescription>
+														This action cannot be undone. This will permanently delete
+														<span className="font-semibold text-foreground">
+														  {" "}“{c.name}”
+														</span>.
+													</AlertDialogDescription>
+												</AlertDialogHeader>
+
+												<AlertDialogFooter>
+													<AlertDialogCancel>
+														Cancel
+													</AlertDialogCancel>
+													<AlertDialogAction
+														onClick={() => onDelete(c._id)}
+														className="bg-red-600 hover:bg-red-700"
+													>
+														Yes, delete
+													</AlertDialogAction>
+												</AlertDialogFooter>
+											</AlertDialogContent>
+										</AlertDialog>
 									</div>
 								</td>
+
 							</tr>
 						))
 					)}
