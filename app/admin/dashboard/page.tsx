@@ -90,7 +90,7 @@ function SidebarContent({
         <div className="p-4 border-t border-amber-100">
           <Button
               variant="outline"
-              className="w-full border-amber-300 text-amber-900 hover:bg-amber-50"
+              className="w-full border-amber-300 text-amber-900 hover:text-amber-950 hover:bg-amber-50"
               onClick={onLogout}
           >
             <LogOut className="h-4 w-4 mr-2" />
