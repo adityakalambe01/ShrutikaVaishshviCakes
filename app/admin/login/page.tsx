@@ -64,7 +64,7 @@ export default function AdminLogin() {
           </Button>
         </form>
 
-        <p className="text-xs text-amber-600 text-center mt-4">Demo password: admin123</p>
+        {/*<p className="text-xs text-amber-600 text-center mt-4"></p>*/}
       </div>
     </div>
   )

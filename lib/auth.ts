@@ -1,5 +1,4 @@
-// Simple auth helper - stores admin password hash
-const ADMIN_PASSWORD_HASH = "admin123" // In production, use proper hashing
+const ADMIN_PASSWORD_HASH = "Shrutika@123"
 
 export const verifyAdminPassword = (password: string): boolean => {
   return password === ADMIN_PASSWORD_HASH
