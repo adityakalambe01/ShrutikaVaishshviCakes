@@ -240,13 +240,13 @@ export default function CustomOrdersPage() {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-foreground/60 mb-1">Email</p>
-                  <a href="mailto:orders@cakeartistry.com" className="text-amber-600 font-semibold hover:underline">
+                  <a href={`mailto:${contactInfo.email || "orders@cakeartistry.com"}`} className="text-amber-600 font-semibold hover:underline">
                     {contactInfo.email || "hello@cakeartistry.com"}
                   </a>
                 </div>
                 <div>
                   <p className="text-sm text-foreground/60 mb-1">Phone</p>
-                  <a href={`tel:`+contactInfo.phone? contactInfo.phone: "+1234567890"} className="text-amber-600 font-semibold hover:underline">
+                  <a href={`tel:${contactInfo.phone || "+1234567890"}`} className="text-amber-600 font-semibold hover:underline">
                     {contactInfo.phone || "+1 (234) 567-890"}
                   </a>
                 </div>
