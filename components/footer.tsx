@@ -5,7 +5,7 @@ import { Mail, MapPin, Phone, Instagram, Facebook } from "lucide-react"
 import Link from "next/link"
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "@/store/store";
-import {updateSettings} from "@/store/siteSettingsSlice";
+import {updateSettings} from "@/store/features/siteSettingsSlice";
 
 export default function Footer() {
   const [loading, setLoading] = useState(true)

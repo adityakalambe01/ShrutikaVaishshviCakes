@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
-import websiteSettingsReducer from "./siteSettingsSlice";
-import cakeReducer from "./cakeSlice";
+import websiteSettingsReducer from "./features/siteSettingsSlice";
+import cakeReducer from "./features/cakeSlice";
 
 
 export const store = configureStore({
