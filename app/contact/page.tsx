@@ -22,9 +22,22 @@ export default function ContactPage() {
     const {email, phone, address} = state.websiteSettings;
     return {email, phone, address};
   })
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Contact form submitted:", formData)
+
+    const payload = {...formData};
+
+    try{
+      await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      setFormData({name: "", email: "", phone: "", subject: "", message: ""})
+    }catch (error){
+      console.error("Failed to send inquiry");
+    }
   }
 
   return (

@@ -137,13 +137,13 @@ export default function PaintingsGalleryPage() {
                             ₹{painting.price}
                           </span>
 
-                          <Button
-                              size="sm"
-                              disabled={!isPaintingsAvailable}
-                              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:opacity-90"
-                          >
-                            Commission
-                          </Button>
+                          {/*<Button*/}
+                          {/*    size="sm"*/}
+                          {/*    disabled={!isPaintingsAvailable}*/}
+                          {/*    className="bg-gradient-to-r from-amber-600 to-orange-600 hover:opacity-90"*/}
+                          {/*>*/}
+                          {/*  Commission*/}
+                          {/*</Button>*/}
                         </CardFooter>
                       </Card>
                   ))}

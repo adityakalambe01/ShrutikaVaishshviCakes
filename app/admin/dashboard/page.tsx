@@ -4,14 +4,16 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
-  LayoutDashboard,
-  Cake,
-  Gift,
-  Palette,
-  LogOut,
-  Menu,
-  ShoppingBag,
-  MailOpen
+    LayoutDashboard,
+    Cake,
+    Gift,
+    Palette,
+    LogOut,
+    Menu,
+    ShoppingBag,
+    MailOpen,
+    LucideIcon,
+    Settings
 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
@@ -19,6 +21,8 @@ import CakesManager from "@/components/admin/cakes-manager"
 import BouquetsManager from "@/components/admin/bouquets-manager"
 import PaintingsManager from "@/components/admin/paintings-manager"
 import SettingsManager from "@/components/admin/settings-manager"
+import InquiryManager from "@/components/admin/inquiry-manager"
+import OrderManager from "@/components/admin/order-manager"
 
 /* ---------- SIDEBAR ITEM ---------- */
 function SidebarItem({
@@ -42,6 +46,48 @@ function SidebarItem({
   )
 }
 
+interface SidebarLinkProps {
+    icon: LucideIcon,
+    label: string,
+    base: string
+}
+
+const linksConstant = {
+    cakes:{
+        base: "cakes",
+        label: "Cakes"
+    },
+    bouquets:{
+        base: "bouquets",
+        label: "Bouquets"
+    },
+    paintings:{
+        base: "paintings",
+        label: "Paintings"
+    },
+    orders:{
+        base: "orders",
+        label: "Orders"
+    },
+    inquiry:{
+        base: "inquiry",
+        label: "Inquiry Messages"
+    },
+    settings:{
+        base: "settings",
+        label: "Settings"
+    }
+}
+
+const sidebarLinks: SidebarLinkProps[] = [
+    { icon: Cake, label: linksConstant.cakes.label, base: linksConstant.cakes.base },
+    { icon: Gift, label: linksConstant.bouquets.label, base: linksConstant.bouquets.base },
+    { icon: Palette, label: linksConstant.paintings.label, base: linksConstant.paintings.base },
+    { icon: ShoppingBag, label: linksConstant.orders.label, base: linksConstant.orders.base },
+    { icon: MailOpen, label: linksConstant.inquiry.label, base: linksConstant.inquiry.base },
+    { icon: Settings, label: linksConstant.settings.label, base: linksConstant.settings.base },
+
+]
 /* ---------- SIDEBAR CONTENT ---------- */
 function SidebarContent({
                           active,
@@ -62,42 +108,53 @@ function SidebarContent({
 
         {/* NAV */}
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          <SidebarItem
-              icon={LayoutDashboard}
-              label="Settings"
-              active={active === "settings"}
-              onClick={() => setActive("settings")}
-          />
-          <SidebarItem
-              icon={Cake}
-              label="Cakes"
-              active={active === "cakes"}
-              onClick={() => setActive("cakes")}
-          />
-          <SidebarItem
-              icon={Gift}
-              label="Bouquets"
-              active={active === "bouquets"}
-              onClick={() => setActive("bouquets")}
-          />
-          <SidebarItem
-              icon={Palette}
-              label="Paintings"
-              active={active === "paintings"}
-              onClick={() => setActive("paintings")}
-          />
-          <SidebarItem
-              icon={ShoppingBag}
-              label="Orders"
-              active={active === "orders"}
-              onClick={() => setActive("orders")}
-          />
-          <SidebarItem
-              icon={MailOpen}
-              label="Messages"
-              active={active === "messages"}
-              onClick={() => setActive("messages")}
-          />
+            {
+                sidebarLinks.map(({icon, label, base}: SidebarLinkProps, index: number) => (
+                    <SidebarItem
+                        key={index}
+                        icon={icon}
+                        label={label}
+                        active={active === base}
+                        onClick={() => setActive(base)}
+                    />
+                ))
+            }
+          {/*<SidebarItem*/}
+          {/*    icon={Cake}*/}
+          {/*    label="Cakes"*/}
+          {/*    active={active === "cakes"}*/}
+          {/*    onClick={() => setActive("cakes")}*/}
+          {/*/>*/}
+          {/*<SidebarItem*/}
+          {/*    icon={Gift}*/}
+          {/*    label="Bouquets"*/}
+          {/*    active={active === "bouquets"}*/}
+          {/*    onClick={() => setActive("bouquets")}*/}
+          {/*/>*/}
+          {/*<SidebarItem*/}
+          {/*    icon={Palette}*/}
+          {/*    label="Paintings"*/}
+          {/*    active={active === "paintings"}*/}
+          {/*    onClick={() => setActive("paintings")}*/}
+          {/*/>*/}
+          {/*<SidebarItem*/}
+          {/*    icon={ShoppingBag}*/}
+          {/*    label="Orders"*/}
+          {/*    active={active === "orders"}*/}
+          {/*    onClick={() => setActive("orders")}*/}
+          {/*/>*/}
+          {/*<SidebarItem*/}
+          {/*    icon={MailOpen}*/}
+          {/*    label="Inquiry Messages"*/}
+          {/*    active={active === "inquiry"}*/}
+          {/*    onClick={() => setActive("inquiry")}*/}
+          {/*/>*/}
+          {/*<SidebarItem*/}
+          {/*    icon={LayoutDashboard}*/}
+          {/*    label="Settings"*/}
+          {/*    active={active === "settings"}*/}
+          {/*    onClick={() => setActive("settings")}*/}
+          {/*/>*/}
         </nav>
 
         {/* LOGOUT */}
@@ -116,7 +173,7 @@ function SidebarContent({
 }
 
 export default function AdminDashboard() {
-  const [active, setActive] = useState("settings")
+  const [active, setActive] = useState(linksConstant.cakes.base)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
 
@@ -171,12 +228,12 @@ export default function AdminDashboard() {
 
           {/* CONTENT */}
           <main className="flex-1 overflow-y-auto p-6">
-            {active === "settings" && <SettingsManager />}
-            {active === "cakes" && <CakesManager />}
-            {active === "bouquets" && <BouquetsManager />}
-            {active === "paintings" && <PaintingsManager />}
-            {active === "orders" && <></>}
-            {active === "messages" && <></>}
+            {active === linksConstant.settings.base && <SettingsManager />}
+            {active === linksConstant.cakes.base && <CakesManager />}
+            {active === linksConstant.bouquets.base && <BouquetsManager />}
+            {active === linksConstant.paintings.base && <PaintingsManager />}
+            {active === linksConstant.orders.base && <OrderManager/>}
+            {active === linksConstant.inquiry.base && <InquiryManager/>}
           </main>
         </div>
       </div>

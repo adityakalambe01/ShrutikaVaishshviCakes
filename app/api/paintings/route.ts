@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB()
     const data = await request.json()
-    console.log("Received painting data:", data);
     const painting = new Painting(data)
     await painting.save()
 

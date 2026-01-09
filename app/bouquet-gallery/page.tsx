@@ -119,12 +119,12 @@ export default function BouquetGalleryPage() {
                             ₹{bouquet.price}
                           </span>
 
-                          <Button
-                              size="sm"
-                              className="bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:opacity-90"
-                          >
-                            Order Now
-                          </Button>
+                          {/*<Button*/}
+                          {/*    size="sm"*/}
+                          {/*    className="bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:opacity-90"*/}
+                          {/*>*/}
+                          {/*  Order Now*/}
+                          {/*</Button>*/}
                         </CardFooter>
                       </Card>
                   ))}
