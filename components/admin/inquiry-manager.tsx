@@ -294,7 +294,7 @@ export default function InquiriesManager() {
                         )}
                     >
                       <td className="p-3 text-xs text-muted-foreground">
-                        #{index+1}
+                        #{ITEMS_PER_PAGE*(page-1)+index+1}
                       </td>
 
                       <td className="p-3 font-medium">{q.name}</td>
@@ -371,7 +371,7 @@ export default function InquiriesManager() {
 
                 <div className="flex justify-between items-center pt-3">
               <span className="text-xs text-muted-foreground">
-                #{index+1}
+                #{ITEMS_PER_PAGE*(page-1)+index+1}
               </span>
 
                   <div className="flex gap-0.5">
