@@ -119,42 +119,6 @@ function SidebarContent({
                     />
                 ))
             }
-          {/*<SidebarItem*/}
-          {/*    icon={Cake}*/}
-          {/*    label="Cakes"*/}
-          {/*    active={active === "cakes"}*/}
-          {/*    onClick={() => setActive("cakes")}*/}
-          {/*/>*/}
-          {/*<SidebarItem*/}
-          {/*    icon={Gift}*/}
-          {/*    label="Bouquets"*/}
-          {/*    active={active === "bouquets"}*/}
-          {/*    onClick={() => setActive("bouquets")}*/}
-          {/*/>*/}
-          {/*<SidebarItem*/}
-          {/*    icon={Palette}*/}
-          {/*    label="Paintings"*/}
-          {/*    active={active === "paintings"}*/}
-          {/*    onClick={() => setActive("paintings")}*/}
-          {/*/>*/}
-          {/*<SidebarItem*/}
-          {/*    icon={ShoppingBag}*/}
-          {/*    label="Orders"*/}
-          {/*    active={active === "orders"}*/}
-          {/*    onClick={() => setActive("orders")}*/}
-          {/*/>*/}
-          {/*<SidebarItem*/}
-          {/*    icon={MailOpen}*/}
-          {/*    label="Inquiry Messages"*/}
-          {/*    active={active === "inquiry"}*/}
-          {/*    onClick={() => setActive("inquiry")}*/}
-          {/*/>*/}
-          {/*<SidebarItem*/}
-          {/*    icon={LayoutDashboard}*/}
-          {/*    label="Settings"*/}
-          {/*    active={active === "settings"}*/}
-          {/*    onClick={() => setActive("settings")}*/}
-          {/*/>*/}
         </nav>
 
         {/* LOGOUT */}

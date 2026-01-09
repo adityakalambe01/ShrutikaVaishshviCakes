@@ -33,6 +33,37 @@ export async function PUT(
 	}
 }
 
+export async function PATCH(
+	request: NextRequest,
+	context: { params: Promise<{ id: string }> }
+) {
+	try {
+		await connectDB()
+		const data = await request.json()
+		const { id } = await context.params // ✅ FIX
+
+		const inquiry = await Inquiry.findByIdAndUpdate(id, data, {
+			new: true,
+			runValidators: true,
+		})
+
+		if (!inquiry) {
+			return NextResponse.json(
+				{ error: "Inquiry not found" },
+				{ status: 404 }
+			)
+		}
+
+		return NextResponse.json(inquiry)
+	} catch (error) {
+		console.error("Update error:", error)
+		return NextResponse.json(
+			{ error: "Failed to update inquiry" },
+			{ status: 500 }
+		)
+	}
+}
+
 
 export async function DELETE(
 	request: NextRequest,
