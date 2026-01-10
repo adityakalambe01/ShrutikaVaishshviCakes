@@ -19,6 +19,7 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Eye, Trash2 } from "lucide-react"
+import {OrderRowSkeleton} from "@/components/admin/skeletons/OrderRowSkeleton";
 
 /* ---------- TYPES ---------- */
 interface Order {
@@ -110,10 +111,6 @@ export default function OrdersManager() {
 		[orders, page]
 	)
 
-	if (loading) {
-		return <p className="text-amber-700">Loading orders...</p>
-	}
-
 	return (
 		<div className="space-y-6">
 			<h2 className="text-2xl font-bold text-amber-900">
@@ -135,7 +132,25 @@ export default function OrdersManager() {
 					</thead>
 
 					<tbody className="divide-y">
-					{paginated.map((o) => (
+					{
+						loading?
+							Array.from({ length: 5 }).map((_, i) => (
+								<OrderRowSkeleton key={i} />
+							))
+							:
+						paginated.length === 0 ?
+							(
+								<tr>
+									<td
+										colSpan={7}
+										className="px-4 py-6 text-center text-sm text-gray-500"
+									>
+										No orders found
+									</td>
+								</tr>
+							)
+							:
+						paginated.map((o) => (
 						<tr key={o._id} className="hover:bg-amber-50">
 							<td className="px-4 py-3 text-xs text-gray-500">
 								{o._id?.slice(-6)}
