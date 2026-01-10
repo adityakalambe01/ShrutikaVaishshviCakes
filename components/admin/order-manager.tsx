@@ -12,7 +12,7 @@ import {
 	AlertDialog,
 	AlertDialogAction,
 	AlertDialogCancel,
-	AlertDialogContent,
+	AlertDialogContent, AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
@@ -22,7 +22,7 @@ import { Eye, Trash2 } from "lucide-react"
 
 /* ---------- TYPES ---------- */
 interface Order {
-	_id?: string
+	_id: string
 	name: string
 	email: string
 	phone: string
@@ -35,7 +35,40 @@ interface Order {
 
 const ITEMS_PER_PAGE = 5
 
+interface OrderDialogProps {
+	order:Order,
+	onClick: (_id: string) => void
+}
 /* ---------- COMPONENT ---------- */
+function DeleteOrderDialog({order, onClick}: OrderDialogProps){
+	return <AlertDialog>
+		<AlertDialogTrigger asChild>
+			<Button size="icon" variant="ghost">
+				<Trash2 className="h-4 w-4 text-destructive" />
+			</Button>
+		</AlertDialogTrigger>
+		<AlertDialogContent>
+			<AlertDialogHeader>
+				<AlertDialogTitle>
+					Delete this order?
+				</AlertDialogTitle>
+				<AlertDialogDescription>
+					This will permanently remove the order and all associated details.
+					This action cannot be undone.
+				</AlertDialogDescription>
+			</AlertDialogHeader>
+			<AlertDialogFooter>
+				<AlertDialogCancel>Cancel</AlertDialogCancel>
+				<AlertDialogAction
+					className="bg-destructive"
+					onClick={() => onClick(order._id)}
+				>
+					Delete
+				</AlertDialogAction>
+			</AlertDialogFooter>
+		</AlertDialogContent>
+	</AlertDialog>
+}
 export default function OrdersManager() {
 	const [orders, setOrders] = useState<Order[]>([])
 	const [loading, setLoading] = useState(true)
@@ -123,29 +156,7 @@ export default function OrdersManager() {
 										<Eye className="h-4 w-4" />
 									</Button>
 
-									<AlertDialog>
-										<AlertDialogTrigger asChild>
-											<Button size="icon" variant="ghost">
-												<Trash2 className="h-4 w-4 text-destructive" />
-											</Button>
-										</AlertDialogTrigger>
-										<AlertDialogContent>
-											<AlertDialogHeader>
-												<AlertDialogTitle>
-													Delete this order?
-												</AlertDialogTitle>
-											</AlertDialogHeader>
-											<AlertDialogFooter>
-												<AlertDialogCancel>Cancel</AlertDialogCancel>
-												<AlertDialogAction
-													className="bg-destructive"
-													onClick={() => deleteOrder(o._id)}
-												>
-													Delete
-												</AlertDialogAction>
-											</AlertDialogFooter>
-										</AlertDialogContent>
-									</AlertDialog>
+									<DeleteOrderDialog order={o} onClick={deleteOrder} />
 								</div>
 							</td>
 						</tr>
@@ -169,16 +180,15 @@ export default function OrdersManager() {
 						</p>
 
 						<div className="flex gap-2 mt-3">
-							<Button size="sm" variant="outline" onClick={() => setSelected(o)}>
-								View
-							</Button>
 							<Button
-								size="sm"
-								variant="destructive"
-								onClick={() => deleteOrder(o._id)}
+								size="icon"
+								variant="outline"
+								onClick={() => setSelected(o)}
 							>
-								Delete
+								<Eye className="h-4 w-4" />
 							</Button>
+
+							<DeleteOrderDialog order={o} onClick={deleteOrder} />
 						</div>
 					</div>
 				))}

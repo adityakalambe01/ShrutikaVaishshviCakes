@@ -8,9 +8,50 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Cakes & Artistry | Handcrafted Cakes, Paintings & Bouquets',
+  description:
+      'Cakes & Artistry by Shrutika & Vaishnavi offers handcrafted premium cakes, custom cake designs, artistic portrait paintings, and elegant chocolate bouquets. Crafted with passion for every celebration.',
+  keywords: [
+    'custom cakes',
+    'premium cakes',
+    'cake artistry',
+    'portrait paintings',
+    'chocolate bouquets',
+    'custom cake orders',
+    'handcrafted cakes',
+    'Shrutika',
+    'Vaishnavi',
+    'cake studio',
+  ],
+  authors: [
+    { name: 'Shrutika & Vaishnavi' },
+  ],
+  creator: 'Cakes & Artistry',
+  metadataBase: new URL('https://cakeartistry.shop'),
+  openGraph: {
+    title: 'Cakes & Artistry | Handcrafted Cakes & Creative Art',
+    description:
+        'Discover premium handcrafted cakes, custom designs, portrait paintings, and chocolate bouquets by Shrutika & Vaishnavi. Perfect for birthdays, weddings, and special moments.',
+    url: 'https://cakeartistry.shop',
+    siteName: 'Cakes & Artistry',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Cakes & Artistry – Custom Cakes and Art',
+      },
+    ],
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cakes & Artistry | Custom Cakes & Art',
+    description:
+        'Handcrafted cakes, custom cake designs, portrait paintings, and chocolate bouquets by Shrutika & Vaishnavi.',
+    images: ['/og-image.png'],
+  },
   icons: {
     icon: [
       {
@@ -28,7 +69,8 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-icon.png',
   },
-}
+};
+
 
 export default function RootLayout({
   children,

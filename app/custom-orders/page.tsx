@@ -7,6 +7,7 @@ import Footer from "@/components/footer"
 import { useState } from "react"
 import {useSelector} from "react-redux";
 import {RootState} from "@/store/store";
+import {cakeBudgetCategoriesConstant, cakeSizePreferenceConstant} from "@/lib/constant"
 
 export default function CustomOrdersPage() {
   const [formData, setFormData] = useState({
@@ -179,10 +180,11 @@ export default function CustomOrdersPage() {
                     onChange={(e) => setFormData({ ...formData, cakeSizePreference: e.target.value })}
                   >
                     <option value="" disabled>Select size...</option>
-                    <option value="small">Small (4-6 servings)</option>
-                    <option value="medium">Medium (10-15 servings)</option>
-                    <option value="large">Large (20-30 servings)</option>
-                    <option value="xlarge">Extra Large (40+ servings)</option>
+                    {
+                      cakeSizePreferenceConstant.map((item) => (
+                          <option value={item.value} key={item.value}>{item.label}</option>
+                      ))
+                    }
                   </select>
                 </div>
               </div>
@@ -207,10 +209,11 @@ export default function CustomOrdersPage() {
                   onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                 >
                   <option value="">Select budget range...</option>
-                  <option value="under50">Under $50</option>
-                  <option value="50-100">$50 - $100</option>
-                  <option value="100-200">$100 - $200</option>
-                  <option value="200plus">$200+</option>
+                  {
+                    cakeBudgetCategoriesConstant.map((item) => (
+                        <option value={item.value} key={item.value}>{item.label}</option>
+                    ))
+                  }
                 </select>
               </div>
 

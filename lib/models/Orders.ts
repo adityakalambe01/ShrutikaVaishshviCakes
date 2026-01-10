@@ -5,10 +5,10 @@ const ordersSchema = new mongoose.Schema({
 	email: { type: String, required: true},
 	phone: { type: String, required: true},
 	eventDate: { type: Date, required: true},
-	numberOfGuests: { type: Number, required: true},
-	cakeSizePreference: { type: String, required: true},
+	numberOfGuests: { type: Number, required: false},
+	cakeSizePreference: { type: String, required: false},
 	cakeDesignDescription: { type: String, required: true},
-	budget: { type: String, required: true},
+	budget: { type: String, required: false},
 	isDeleted: { type: Boolean, default: false}
 },{timestamps: true})
 
