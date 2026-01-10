@@ -70,10 +70,10 @@ export default function ImageUpload({ onUploadComplete, currentImage, label = "U
 
   return (
     <div className="space-y-3">
-      <label className="block text-sm font-medium text-amber-900">{label}</label>
+      {/*<label className="block text-sm font-medium text-amber-900">{label}</label>*/}
 
       {preview && (
-        <div className="relative w-full h-48 bg-amber-50 rounded-lg overflow-hidden">
+        <div className="relative w-full md:w-48 h-48 bg-amber-50 rounded-lg overflow-hidden">
           <Image src={preview || "/placeholder.svg"} alt="Preview" fill className="object-cover" />
         </div>
       )}
@@ -92,7 +92,7 @@ export default function ImageUpload({ onUploadComplete, currentImage, label = "U
         onClick={() => fileInputRef.current?.click()}
         disabled={uploading}
         variant="outline"
-        className="w-full border-amber-300 hover:bg-amber-50"
+        className="w-full md:w-48 border-amber-300 hover:bg-amber-50 hover:text-amber-900"
       >
         {uploading ? "Uploading..." : preview ? "Change Image" : "Select Image"}
       </Button>
