@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Eye, Trash2 } from "lucide-react"
 import {OrderRowSkeleton} from "@/components/admin/skeletons/OrderRowSkeleton";
+import {OrderCardSkeleton} from "@/components/admin/skeletons/OrderCardSkeleton";
 
 /* ---------- TYPES ---------- */
 interface Order {
@@ -182,7 +183,13 @@ export default function OrdersManager() {
 
 			{/* ---------- MOBILE LIST ---------- */}
 			<div className="md:hidden space-y-4">
-				{paginated.map((o) => (
+				{
+					loading?
+						Array.from({ length: 4 }).map((_, i) => (
+							<OrderCardSkeleton key={i} />
+						))
+						:
+					paginated.map((o) => (
 					<div
 						key={o._id}
 						className="border border-amber-200 rounded-lg p-4 bg-white"
