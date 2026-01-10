@@ -81,7 +81,7 @@ export async function DELETE(
 			)
 		}
 
-		const inquiry = await Inquiry.findByIdAndDelete(id)
+		const inquiry = await Inquiry.findByIdAndUpdate(id, {isDeleted: true}, { new: true})
 
 		if (!inquiry) {
 			return NextResponse.json(

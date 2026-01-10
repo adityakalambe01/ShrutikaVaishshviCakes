@@ -11,6 +11,7 @@ const cakeSchema = new mongoose.Schema(
     category: { type: String, enum: ["Premium", "Custom", "Classic"], default: "Classic" },
     isAvailable: { type: Boolean, default: true },
     tags: [String],
+    isDeleted: { type: Boolean, default: false}
   },
   { timestamps: true },
 )

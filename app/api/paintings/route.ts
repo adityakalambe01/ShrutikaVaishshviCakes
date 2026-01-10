@@ -5,7 +5,7 @@ import { Painting } from "@/lib/models/Painting"
 export async function GET() {
   try {
     await connectDB()
-    const paintings = await Painting.find().sort({ createdAt: -1 })
+    const paintings = await Painting.find({ isDeleted: false }).sort({ createdAt: -1 })
     return NextResponse.json(paintings)
   } catch (error) {
     console.error("Fetch error:", error)

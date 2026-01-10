@@ -50,7 +50,7 @@ export async function DELETE(
       )
     }
 
-    const painting = await Painting.findByIdAndDelete(id)
+    const painting = await Painting.findByIdAndUpdate(id, {isDeleted: true}, { new: true})
 
     if (!painting) {
       return NextResponse.json(

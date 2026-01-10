@@ -10,6 +10,7 @@ const bouquetSchema = new mongoose.Schema(
     size: { type: String, enum: ["Small", "Medium", "Large"], default: "Medium" },
     isAvailable: { type: Boolean, default: true },
     occasion: { type: String },
+    isDeleted: { type: Boolean, default: false}
   },
   { timestamps: true },
 )

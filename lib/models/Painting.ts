@@ -11,6 +11,7 @@ const paintingSchema = new mongoose.Schema(
     medium: { type: String, required: true },
     isAvailable: { type: Boolean, default: true },
     commissionAvailable: { type: Boolean, default: true },
+    isDeleted: { type: Boolean, default: false}
   },
   { timestamps: true },
 )

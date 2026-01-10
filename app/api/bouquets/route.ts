@@ -5,7 +5,7 @@ import { Bouquet } from "@/lib/models/Bouquet"
 export async function GET() {
   try {
     await connectDB()
-    const bouquets = await Bouquet.find().sort({ createdAt: -1 })
+    const bouquets = await Bouquet.find({ isDeleted: false }).sort({ createdAt: -1 })
     return NextResponse.json(bouquets)
   } catch (error) {
     console.error("Fetch error:", error)

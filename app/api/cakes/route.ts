@@ -5,7 +5,7 @@ import { Cake } from "@/lib/models/Cake"
 export async function GET() {
   try {
     await connectDB()
-    const cakes = await Cake.find().sort({ createdAt: -1 })
+    const cakes = await Cake.find({ isDeleted: false }).sort({ createdAt: -1 })
     return NextResponse.json(cakes)
   } catch (error) {
     console.error("Fetch error:", error)

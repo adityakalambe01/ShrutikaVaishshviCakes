@@ -27,7 +27,7 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
     await connectDB()
     const { id } = await context.params
 
-    const bouquet = await Bouquet.findByIdAndDelete(id)
+    const bouquet = await Bouquet.findByIdAndUpdate(id, {isDeleted: true}, { new: true})
 
     if (!bouquet) {
       return NextResponse.json({ error: "Bouquet not found" }, { status: 404 })

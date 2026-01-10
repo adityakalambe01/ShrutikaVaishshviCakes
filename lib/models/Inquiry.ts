@@ -7,7 +7,8 @@ const inquirySchema = new mongoose.Schema({
 	subject: {type: String, required: true},
 	message: {type: String, required: true},
 	isRead: {type: Boolean, default: false},
-	isStarred: {type: Boolean, default: false}
+	isStarred: {type: Boolean, default: false},
+	isDeleted: { type: Boolean, default: false}
 }, {timestamps: true});
 
 export const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', inquirySchema);
