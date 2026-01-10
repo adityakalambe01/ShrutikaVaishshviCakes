@@ -14,8 +14,8 @@ export function SiteSettingsSkeleton() {
 
 					<div className="space-y-3">
 						<Skeleton className="h-4 w-20" />
-						<Skeleton className="h-48 w-full rounded-lg" />
-						<Skeleton className="h-10 w-full rounded-lg" />
+						<Skeleton className="h-48 w-full md:w-48 rounded-lg" />
+						<Skeleton className="h-10 w-full md:w-48 rounded-lg" />
 					</div>
 				</div>
 
