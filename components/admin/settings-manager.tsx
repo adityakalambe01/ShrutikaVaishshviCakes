@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
+import {SiteSettingsSkeleton} from "@/components/admin/skeletons/SiteSettingsSkeleton";
 
 interface SiteSettings {
   logo: string
@@ -69,11 +70,9 @@ export default function SettingsManager() {
     }
   }
 
-  if (loading) {
-    return <p className="text-amber-700">Loading settings...</p>
-  }
-
   return (
+      loading ? <SiteSettingsSkeleton/>
+          :
     <Card className="p-6 bg-white border-amber-200">
       <h2 className="text-2xl font-bold text-amber-900 mb-6">Site Settings</h2>
 
