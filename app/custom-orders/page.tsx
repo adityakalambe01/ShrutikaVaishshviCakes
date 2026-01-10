@@ -14,9 +14,9 @@ export default function CustomOrdersPage() {
     email: "",
     phone: "",
     eventDate: "",
-    guestCount: "",
-    cakeSize: "",
-    description: "",
+    numberOfGuests: "",
+    cakeSizePreference: "",
+    cakeDesignDescription: "",
     budget: "",
   })
 
@@ -25,9 +25,20 @@ export default function CustomOrdersPage() {
     return {email, phone};
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Custom order submitted:", formData)
+    try {
+      const payload = {...formData, eventDate: new Date(formData.eventDate).setHours(0,0,0,0), numberOfGuests: parseInt(formData.numberOfGuests) };
+      await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      setFormData({name: "", email: "", phone: "", eventDate: "", numberOfGuests: "", cakeSizePreference: "", cakeDesignDescription: "", budget: ""})
+    }catch (error){
+      console.error("Failed to send custom order");
+    }
   }
 
   return (
@@ -155,8 +166,8 @@ export default function CustomOrdersPage() {
                   <input
                     type="number"
                     className="w-full px-4 py-3 border border-amber-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100"
-                    value={formData.guestCount}
-                    onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
+                    value={formData.numberOfGuests}
+                    onChange={(e) => setFormData({ ...formData, numberOfGuests: e.target.value })}
                   />
                 </div>
 
@@ -164,10 +175,10 @@ export default function CustomOrdersPage() {
                   <label className="block text-sm font-semibold text-foreground mb-2">Cake Size Preference</label>
                   <select
                     className="w-full px-4 py-3 border border-amber-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100"
-                    value={formData.cakeSize}
-                    onChange={(e) => setFormData({ ...formData, cakeSize: e.target.value })}
+                    value={formData.cakeSizePreference}
+                    onChange={(e) => setFormData({ ...formData, cakeSizePreference: e.target.value })}
                   >
-                    <option value="">Select size...</option>
+                    <option value="" disabled>Select size...</option>
                     <option value="small">Small (4-6 servings)</option>
                     <option value="medium">Medium (10-15 servings)</option>
                     <option value="large">Large (20-30 servings)</option>
@@ -183,8 +194,8 @@ export default function CustomOrdersPage() {
                   rows={5}
                   placeholder="Describe your ideal cake design, theme, flavors, colors, decorations, ice cream cakes, etc."
                   className="w-full px-4 py-3 border border-amber-200 rounded-lg focus:outline-none focus:border-amber-600 focus:ring-2 focus:ring-amber-100"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  value={formData.cakeDesignDescription}
+                  onChange={(e) => setFormData({ ...formData, cakeDesignDescription: e.target.value })}
                 />
               </div>
 
