@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     siteName: 'Cakes & Artistry',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Cakes & Artistry – Custom Cakes and Art',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: 'Cakes & Artistry | Custom Cakes & Art',
     description:
         'Handcrafted cakes, custom cake designs, portrait paintings, and chocolate bouquets by Shrutika & Vaishnavi.',
-    images: ['/og-image.png'],
+    images: ['/og-image.jpg'],
   },
   icons: {
     icon: [
