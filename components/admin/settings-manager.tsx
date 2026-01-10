@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
-import {SiteSettingsSkeleton} from "@/components/admin/skeletons/SiteSettingsSkeleton";
+import { SiteSettingsSkeleton } from "@/components/admin/skeletons/SiteSettingsSkeleton"
 
 interface SiteSettings {
   logo: string
