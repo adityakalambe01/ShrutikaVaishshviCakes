@@ -14,6 +14,8 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {Skeleton} from "@/components/ui/skeleton";
+import {BouquetRowSkeleton} from "@/components/admin/skeletons/BouquetRowSkeleton";
 
 
 /* ---------- TYPES ---------- */
@@ -68,9 +70,9 @@ export default function BouquetsTable({
 		page * ITEMS_PER_PAGE
 	)
 
-	if (loading) {
-		return <p className="text-amber-700">Loading...</p>
-	}
+	// if (loading) {
+	// 	return <p className="text-amber-700">Loading...</p>
+	// }
 
 	return (
 		<div className="space-y-4">
@@ -119,7 +121,10 @@ export default function BouquetsTable({
 					</thead>
 
 					<tbody className="divide-y divide-amber-200 bg-white">
-					{paginated.length === 0 ? (
+					{loading? Array.from({ length: 5 }).map((_, i) => (
+								<BouquetRowSkeleton key={i} />
+							))
+						: paginated.length === 0 ? (
 						<tr>
 							<td
 								colSpan={7}
