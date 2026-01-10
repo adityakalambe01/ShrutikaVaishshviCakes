@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
+import {InquiryRowSkeleton} from "@/components/admin/skeletons/InquiryRowSkeleton";
+import {InquiryCardSkeleton} from "@/components/admin/skeletons/InquiryCardSkeleton";
 
 /* ---------- TYPES ---------- */
 export interface Inquiry {
@@ -233,10 +235,6 @@ export default function InquiriesManager() {
   }
 
   /* ---------- UI ---------- */
-  if (loading) {
-    return <p className="text-muted-foreground">Loading inquiries...</p>
-  }
-
   return (
       <div className="space-y-4">
         {/* ================= FILTER BAR ================= */}
@@ -278,7 +276,13 @@ export default function InquiriesManager() {
             </thead>
 
             <tbody>
-            {paginated.length === 0 ? (
+            {
+              loading?
+                  Array.from({ length: 5 }).map((_, i) => (
+                      <InquiryRowSkeleton key={i} />
+                  ))
+                  :
+              paginated.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="p-6 text-center text-muted-foreground">
                     No inquiries found
@@ -350,7 +354,13 @@ export default function InquiriesManager() {
 
         {/* ================= MOBILE LIST ================= */}
         <div className="md:hidden space-y-3">
-          {paginated.map((q, index) => (
+          {
+            loading ?
+                Array.from({ length: 5 }).map((_, i) => (
+                    <InquiryCardSkeleton key={i}/>
+                ))
+                :
+            paginated.map((q, index) => (
               <div
                   key={q._id}
                   className={cn(
