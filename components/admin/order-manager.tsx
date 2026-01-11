@@ -152,10 +152,10 @@ export default function OrdersManager() {
 								</tr>
 							)
 							:
-						paginated.map((o) => (
+						paginated.map((o, idx) => (
 						<tr key={o._id} className="hover:bg-amber-50">
 							<td className="px-4 py-3 text-xs text-gray-500">
-								{o._id?.slice(-6)}
+								#{ITEMS_PER_PAGE*(page-1)+idx+1}
 							</td>
 							<td className="px-4 py-3 font-medium">{o.name}</td>
 							<td className="px-4 py-3">{o.phone}</td>
