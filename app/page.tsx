@@ -13,16 +13,17 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-8">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
-              <span className="block">Exquisite Chocolate</span>
+              <span className="block">Exquisite Flavours & Creations</span>
               <span className="block bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                 Cakes & Artistry
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-foreground/70 max-w-2xl mx-auto leading-relaxed">
-              Handcrafted chocolate cakes and delectable treats by Shrutika and Vaishnavi. Each creation is a
-              masterpiece.
+            <p className="text-xl md:text-xl text-foreground/70 max-w-2xl mx-auto leading-relaxed">
+              Handcrafted cakes, artistic creations, and delectable treats by Shrutika & Vaishnavi.
+              Each creation is a masterpiece made with passion and precision.
             </p>
+
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
               <Link
