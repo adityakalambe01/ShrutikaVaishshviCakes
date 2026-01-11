@@ -76,7 +76,7 @@ export default function BouquetGalleryPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {loading ? (
                 <div className={'grid md:grid-cols-3 gap-8'}>
-                  {Array.from({length: 3}).map((_, i) => (
+                  {Array.from({length: 6}).map((_, i) => (
                       <BouquetCardSkeleton key={i}/>
                   ))}
                 </div>
