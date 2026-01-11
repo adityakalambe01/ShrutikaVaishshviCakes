@@ -7,7 +7,7 @@ export const cakeBudgetCategoriesConstant: SelectOption[] = [
 	{ label: "Under ₹ 250", value: "under250" },
 	{ label: "₹ 250 - ₹ 500", value: "250-500" },
 	{ label: "₹ 500 - ₹ 1000", value: "500-1000" },
-	{ label: "₹ 1000+", value: "100plus" },
+	{ label: "₹ 1000+", value: "1000plus" },
 ]
 
 export const cakeSizePreferenceConstant: SelectOption[] = [

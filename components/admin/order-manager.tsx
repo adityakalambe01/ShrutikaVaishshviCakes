@@ -21,6 +21,7 @@ import {
 import { Eye, Trash2 } from "lucide-react"
 import {OrderRowSkeleton} from "@/components/admin/skeletons/OrderRowSkeleton";
 import {OrderCardSkeleton} from "@/components/admin/skeletons/OrderCardSkeleton";
+import { cakeBudgetCategoriesConstant, cakeSizePreferenceConstant } from "@/lib/constant";
 
 /* ---------- TYPES ---------- */
 interface Order {
@@ -251,20 +252,65 @@ export default function OrdersManager() {
 					</DialogHeader>
 
 					{selected && (
-						<div className="space-y-2 text-sm">
-							<p><b>Name:</b> {selected.name}</p>
-							<p><b>Email:</b> {selected.email}</p>
-							<p><b>Phone:</b> {selected.phone}</p>
-							<p><b>Event Date:</b> {new Date(selected.eventDate).toLocaleDateString()}</p>
-							<p><b>Guests:</b> {selected.numberOfGuests}</p>
-							<p><b>Cake Size:</b> {selected.cakeSizePreference}</p>
-							<p><b>Budget:</b> {selected.budget}</p>
-							<p className="pt-2">
-								<b>Design Description:</b>
-								<br />
-								{selected.cakeDesignDescription}
-							</p>
+						<div className="space-y-3 text-sm text-foreground">
+							<div className="grid grid-cols-2 gap-x-6 gap-y-2">
+								<p>
+									<span className="font-semibold text-muted-foreground">Customer Name</span>
+									<br />
+									{selected.name}
+								</p>
+
+								<p>
+									<span className="font-semibold text-muted-foreground">Email Address</span>
+									<br />
+									{selected.email}
+								</p>
+
+								<p>
+									<span className="font-semibold text-muted-foreground">Phone Number</span>
+									<br />
+									{selected.phone || "Not provided"}
+								</p>
+
+								<p>
+									<span className="font-semibold text-muted-foreground">Event Date</span>
+									<br />
+									{new Date(selected.eventDate).toLocaleDateString()}
+								</p>
+
+								<p>
+									<span className="font-semibold text-muted-foreground">Number of Guests</span>
+									<br />
+									{selected.numberOfGuests || "Not mentioned"}
+								</p>
+
+								<p>
+									<span className="font-semibold text-muted-foreground">Preferred Cake Size</span>
+									<br />
+									{cakeSizePreferenceConstant.find(
+										(item) => item.value === selected.cakeSizePreference
+									)?.label || "Not mentioned"}
+								</p>
+
+								<p>
+									<span className="font-semibold text-muted-foreground">Estimated Budget</span>
+									<br />
+									{cakeBudgetCategoriesConstant.find(
+										(item) => item.value === selected.budget
+									)?.label || "Not mentioned"}
+								</p>
+							</div>
+
+							<div className="pt-3 border-t">
+								<p className="font-semibold text-muted-foreground mb-1">
+									Cake Design Description
+								</p>
+								<p className="leading-relaxed text-foreground/90">
+									{selected.cakeDesignDescription || "No design details provided."}
+								</p>
+							</div>
 						</div>
+
 					)}
 				</DialogContent>
 			</Dialog>
