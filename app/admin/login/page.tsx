@@ -6,18 +6,16 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError("")
-
     try {
       const response = await fetch("/api/admin/login", {
         method: "POST",
@@ -27,13 +25,14 @@ export default function AdminLogin() {
 
       if (response.ok) {
         const data = await response.json()
+        toastSuccess("Login successful. Welcome back!")
         localStorage.setItem("adminToken", data.token)
         router.push("/admin/dashboard")
       } else {
-        setError("Invalid password")
+        toastError("Invalid password")
       }
     } catch (err) {
-      setError("Login failed. Please try again.")
+      toastError("Login failed. Please try again.")
     } finally {
       setLoading(false)
     }
@@ -56,8 +55,6 @@ export default function AdminLogin() {
               className="w-full"
             />
           </div>
-
-          {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">{error}</div>}
 
           <Button type="submit" disabled={loading} className="w-full bg-amber-600 hover:bg-amber-700">
             {loading ? "Logging in..." : "Login"}
