@@ -252,64 +252,82 @@ export default function OrdersManager() {
 					</DialogHeader>
 
 					{selected && (
-						<div className="space-y-3 text-sm text-foreground">
-							<div className="grid grid-cols-2 gap-x-6 gap-y-2">
-								<p>
-									<span className="font-semibold text-muted-foreground">Customer Name</span>
-									<br />
-									{selected.name}
-								</p>
+						<div className="space-y-4 text-sm text-foreground">
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+								<div>
+      <span className="font-semibold text-muted-foreground">
+        Customer Name
+      </span>
+									<p className="break-words">{selected.name}</p>
+								</div>
 
-								<p>
-									<span className="font-semibold text-muted-foreground">Email Address</span>
-									<br />
-									{selected.email}
-								</p>
+								<div>
+      <span className="font-semibold text-muted-foreground">
+        Email Address
+      </span>
+									<p className="break-all sm:break-words">
+										{selected.email}
+									</p>
+								</div>
 
-								<p>
-									<span className="font-semibold text-muted-foreground">Phone Number</span>
-									<br />
-									{selected.phone || "Not provided"}
-								</p>
+								<div>
+      <span className="font-semibold text-muted-foreground">
+        Phone Number
+      </span>
+									<p className="break-words">
+										{selected.phone || "Not provided"}
+									</p>
+								</div>
 
-								<p>
-									<span className="font-semibold text-muted-foreground">Event Date</span>
-									<br />
-									{new Date(selected.eventDate).toLocaleDateString()}
-								</p>
+								<div>
+      <span className="font-semibold text-muted-foreground">
+        Event Date
+      </span>
+									<p>
+										{new Date(selected.eventDate).toLocaleDateString()}
+									</p>
+								</div>
 
-								<p>
-									<span className="font-semibold text-muted-foreground">Number of Guests</span>
-									<br />
-									{selected.numberOfGuests || "Not mentioned"}
-								</p>
+								<div>
+      <span className="font-semibold text-muted-foreground">
+        Number of Guests
+      </span>
+									<p>{selected.numberOfGuests || "Not mentioned"}</p>
+								</div>
 
-								<p>
-									<span className="font-semibold text-muted-foreground">Preferred Cake Size</span>
-									<br />
-									{cakeSizePreferenceConstant.find(
-										(item) => item.value === selected.cakeSizePreference
-									)?.label || "Not mentioned"}
-								</p>
+								<div>
+      <span className="font-semibold text-muted-foreground">
+        Preferred Cake Size
+      </span>
+									<p>
+										{cakeSizePreferenceConstant.find(
+											(item) => item.value === selected.cakeSizePreference
+										)?.label || "Not mentioned"}
+									</p>
+								</div>
 
-								<p>
-									<span className="font-semibold text-muted-foreground">Estimated Budget</span>
-									<br />
-									{cakeBudgetCategoriesConstant.find(
-										(item) => item.value === selected.budget
-									)?.label || "Not mentioned"}
-								</p>
+								<div className="sm:col-span-2">
+      <span className="font-semibold text-muted-foreground">
+        Estimated Budget
+      </span>
+									<p>
+										{cakeBudgetCategoriesConstant.find(
+											(item) => item.value === selected.budget
+										)?.label || "Not mentioned"}
+									</p>
+								</div>
 							</div>
 
-							<div className="pt-3 border-t">
+							<div className="pt-4 border-t">
 								<p className="font-semibold text-muted-foreground mb-1">
 									Cake Design Description
 								</p>
-								<p className="leading-relaxed text-foreground/90">
+								<p className="leading-relaxed break-words text-foreground/90">
 									{selected.cakeDesignDescription || "No design details provided."}
 								</p>
 							</div>
 						</div>
+
 
 					)}
 				</DialogContent>
