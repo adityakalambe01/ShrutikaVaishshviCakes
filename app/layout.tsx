@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import {ReduxProvider} from "@/store/provider";
+import {Toaster} from "sonner";
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -82,6 +83,10 @@ export default function RootLayout({
       <body className={`font-sans antialiased`} suppressHydrationWarning>
         <ReduxProvider>{children}</ReduxProvider>
         <Analytics />
+        <Toaster
+            position="bottom-right"
+            richColors
+        />
       </body>
     </html>
   )

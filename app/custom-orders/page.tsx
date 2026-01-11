@@ -8,6 +8,7 @@ import { useState } from "react"
 import {useSelector} from "react-redux";
 import {RootState} from "@/store/store";
 import {cakeBudgetCategoriesConstant, cakeSizePreferenceConstant} from "@/lib/constant"
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 export default function CustomOrdersPage() {
   const [formData, setFormData] = useState({
@@ -28,7 +29,6 @@ export default function CustomOrdersPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Custom order submitted:", formData)
     try {
       const payload = {...formData, eventDate: new Date(formData.eventDate).setHours(0,0,0,0), numberOfGuests: parseInt(formData.numberOfGuests) };
       await fetch("/api/orders", {
@@ -36,9 +36,10 @@ export default function CustomOrdersPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       })
+      toastSuccess("Custom order submitted")
       setFormData({name: "", email: "", phone: "", eventDate: "", numberOfGuests: "", cakeSizePreference: "", cakeDesignDescription: "", budget: ""})
     }catch (error){
-      console.error("Failed to send custom order");
+      toastError("Failed to send custom order")
     }
   }
 

@@ -8,6 +8,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react"
 import { useState } from "react"
 import {useSelector} from "react-redux";
 import {RootState} from "@/store/store";
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -24,8 +25,6 @@ export default function ContactPage() {
   })
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Contact form submitted:", formData)
-
     const payload = {...formData};
 
     try{
@@ -34,9 +33,10 @@ export default function ContactPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       })
+      toastSuccess("Contact form submitted")
       setFormData({name: "", email: "", phone: "", subject: "", message: ""})
     }catch (error){
-      console.error("Failed to send inquiry");
+      toastError("Failed to send inquiry")
     }
   }
 
