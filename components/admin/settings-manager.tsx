@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import ImageUpload from "./image-upload"
 import { SiteSettingsSkeleton } from "@/components/admin/skeletons/SiteSettingsSkeleton"
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 interface SiteSettings {
   logo: string
@@ -32,7 +33,6 @@ export default function SettingsManager() {
     aboutText: "",
   })
   const [loading, setLoading] = useState(true)
-  const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     fetchSettings()
@@ -45,6 +45,7 @@ export default function SettingsManager() {
       setSettings(data || settings)
     } catch (error) {
       console.error("Failed to fetch settings:", error)
+      toastError("Failed to fetch settings. Please try again later.")
     } finally {
       setLoading(false)
     }
@@ -52,21 +53,18 @@ export default function SettingsManager() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSaved(false)
 
     try {
-      const response = await fetch("/api/settings", {
+      await fetch("/api/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       })
 
-      if (response.ok) {
-        setSaved(true)
-        setTimeout(() => setSaved(false), 3000)
-      }
+      toastSuccess("Settings saved successfully.")
     } catch (error) {
       console.error("Failed to save settings:", error)
+      toastError("Failed to save settings. Please try again later.")
     }
   }
 
@@ -75,8 +73,6 @@ export default function SettingsManager() {
           :
     <Card className="p-6 bg-white border-amber-200">
       <h2 className="text-2xl font-bold text-amber-900 mb-6">Site Settings</h2>
-
-      {saved && <div className="bg-green-50 text-green-700 p-3 rounded-lg mb-4">✓ Settings saved successfully!</div>}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Logo Section */}

@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils"
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {InquiryRowSkeleton} from "@/components/admin/skeletons/InquiryRowSkeleton";
 import {InquiryCardSkeleton} from "@/components/admin/skeletons/InquiryCardSkeleton";
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 /* ---------- TYPES ---------- */
 export interface Inquiry {
@@ -168,6 +169,7 @@ export default function InquiriesManager() {
       setInquiries(Array.isArray(data) ? data : data.inquiries ?? [])
     } catch (err) {
       console.error("Failed to fetch inquiries:", err)
+      toastError("Failed to fetch inquiries. Please try again later.")
     } finally {
       setLoading(false)
     }
@@ -200,32 +202,46 @@ export default function InquiriesManager() {
 
   /* ---------- ACTIONS ---------- */
   const toggleRead = async (id: string, value: boolean) => {
-    setInquiries((prev) =>
-        prev.map((q) => (q._id === id ? { ...q, isRead: value } : q))
-    )
 
-    await fetch(`/api/inquiry/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isRead: value }),
-    })
+    try {
+      await fetch(`/api/inquiry/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isRead: value }),
+      })
+      setInquiries((prev) =>
+          prev.map((q) => (q._id === id ? { ...q, isRead: value } : q))
+      )
+      toastSuccess(`Inquiry status marked as ${value ? "read" : "unread"} successfully.`)
+    }catch (err) {
+      toastError(`Failed to update inquiry status as ${value ? "read" : "unread"}. Please try again later.`)
+    }
   }
 
   const toggleStar = async (id: string, value: boolean) => {
-    setInquiries((prev) =>
-        prev.map((q) => (q._id === id ? { ...q, isStarred: value } : q))
-    )
-
-    await fetch(`/api/inquiry/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isStarred: value }),
-    })
+    try {
+      await fetch(`/api/inquiry/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isStarred: value }),
+      })
+      setInquiries((prev) =>
+          prev.map((q) => (q._id === id ? { ...q, isStarred: value } : q))
+      )
+      toastSuccess(`Inquiry status marked as ${value ? "starred" : "un-starred"} successfully.`)
+    }catch (err) {
+      toastError(`Failed to update inquiry status as ${value ? "starred" : "un-starred"}. Please try again later.`)
+    }
   }
 
   const deleteInquiry = async (id: string) => {
-    await fetch(`/api/inquiry/${id}`, { method: "DELETE" })
-    setInquiries((prev) => prev.filter((q) => q._id !== id))
+    try {
+      await fetch(`/api/inquiry/${id}`, { method: "DELETE" })
+      setInquiries((prev) => prev.filter((q) => q._id !== id))
+      toastSuccess("Inquiry deleted successfully.")
+    }catch (err) {
+      toastError("Failed to delete inquiry. Please try again later.")
+    }
   }
 
   const viewInquiry = (q: Inquiry) => {

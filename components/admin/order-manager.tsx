@@ -22,6 +22,7 @@ import { Eye, Trash2 } from "lucide-react"
 import {OrderRowSkeleton} from "@/components/admin/skeletons/OrderRowSkeleton";
 import {OrderCardSkeleton} from "@/components/admin/skeletons/OrderCardSkeleton";
 import { cakeBudgetCategoriesConstant, cakeSizePreferenceConstant } from "@/lib/constant";
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 /* ---------- TYPES ---------- */
 interface Order {
@@ -36,7 +37,7 @@ interface Order {
 	budget: string
 }
 
-const ITEMS_PER_PAGE = 5
+const ITEMS_PER_PAGE = 10
 
 interface OrderDialogProps {
 	order:Order,
@@ -90,6 +91,7 @@ export default function OrdersManager() {
 			setOrders(Array.isArray(data) ? data : data.orders ?? [])
 		} catch (err) {
 			console.error("Failed to fetch orders", err)
+			toastError("Failed to fetch orders. Please try again later.")
 		} finally {
 			setLoading(false)
 		}
@@ -98,7 +100,12 @@ export default function OrdersManager() {
 	/* ---------- DELETE ---------- */
 	const deleteOrder = async (id?: string) => {
 		if (!id) return
-		await fetch(`/api/orders/${id}`, { method: "DELETE" })
+		try {
+			await fetch(`/api/orders/${id}`, { method: "DELETE" })
+			toastSuccess("Order deleted successfully")
+		}catch (err) {
+			toastError("Failed to delete order")
+		}
 		fetchOrders()
 	}
 

@@ -15,6 +15,7 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog"
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 /* ---------- TYPES ---------- */
 interface Bouquet {
@@ -58,6 +59,7 @@ export default function BouquetsManager() {
       setBouquets(Array.isArray(data) ? data : data.bouquets ?? [])
     } catch (err) {
       console.error("Failed to fetch bouquets:", err)
+      toastError("Failed to fetch bouquets. Please try again later.")
     } finally {
       setLoading(false)
     }
@@ -74,12 +76,14 @@ export default function BouquetsManager() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         })
+        toastSuccess("Bouquet updated successfully.")
       } else {
         await fetch("/api/bouquets", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         })
+        toastSuccess("Bouquet added successfully.")
       }
 
       await fetchBouquets()
@@ -87,12 +91,19 @@ export default function BouquetsManager() {
       setOpen(false)
     } catch (err) {
       console.error("Failed to save bouquet:", err)
+      toastError("Failed to save/update bouquet. Please try again later.")
     }
   }
 
   const handleDelete = async (id?: string) => {
     if (!id) return
-    await fetch(`/api/bouquets/${id}`, { method: "DELETE" })
+    try {
+      await fetch(`/api/bouquets/${id}`, { method: "DELETE" })
+      toastSuccess("Bouquet deleted successfully.")
+    }catch (err) {
+      console.error("Failed to delete bouquet:", err)
+      toastError("Failed to delete bouquet. Please try again later.")
+    }
     fetchBouquets()
   }
 

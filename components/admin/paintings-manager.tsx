@@ -15,6 +15,7 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog"
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 /* ---------- CONSTANTS ---------- */
 const PAINTING_MEDIUMS = [
@@ -77,6 +78,7 @@ export default function PaintingsManager() {
       setPaintings(Array.isArray(data) ? data : data.paintings ?? [])
     } catch (err) {
       console.error("Failed to fetch paintings:", err)
+      toastError("Failed to fetch paintings. Please try again later.")
     } finally {
       setLoading(false)
     }
@@ -88,6 +90,7 @@ export default function PaintingsManager() {
 
     if (!formData.imageUrl) {
       alert("Please upload an image")
+      toastError("Please upload an image.")
       return
     }
 
@@ -103,12 +106,14 @@ export default function PaintingsManager() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         })
+        toastSuccess("Painting updated successfully.")
       } else {
         await fetch("/api/paintings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         })
+        toastSuccess("Painting added successfully.")
       }
 
       await fetchPaintings()
@@ -116,12 +121,19 @@ export default function PaintingsManager() {
       setOpen(false)
     } catch (err) {
       console.error("Failed to save painting:", err)
+      toastError("Failed to save/update painting. Please try again later.")
     }
   }
 
   const handleDelete = async (id?: string) => {
     if (!id) return
-    await fetch(`/api/paintings/${id}`, { method: "DELETE" })
+    try {
+      await fetch(`/api/paintings/${id}`, { method: "DELETE" })
+      toastSuccess("Painting deleted successfully.")
+    }catch (err) {
+      console.error("Failed to delete painting:", err)
+      toastError("Failed to delete painting. Please try again later.")
+    }
     fetchPaintings()
   }
 

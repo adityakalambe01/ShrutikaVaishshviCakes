@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {toastError, toastSuccess} from "@/lib/toast.service";
 
 interface Cake {
   _id?: string
@@ -70,6 +71,7 @@ export default function CakesManager() {
       setCakes(Array.isArray(data) ? data : data.cakes ?? [])
     } catch (err) {
       console.error("Failed to fetch cakes:", err)
+      toastError("Failed to fetch cakes. Please try again later.")
     } finally {
       setLoading(false)
     }
@@ -93,12 +95,14 @@ export default function CakesManager() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         })
+        toastSuccess("Cake updated successfully.")
       } else {
         await fetch("/api/cakes", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         })
+        toastSuccess("Cake added successfully.")
       }
 
       await fetchCakes()
@@ -106,12 +110,19 @@ export default function CakesManager() {
       setOpen(false)
     } catch (err) {
       console.error("Failed to save cake:", err)
+      toastError("Failed to save/update cake. Please try again later.")
     }
   }
 
   const handleDelete = async (id?: string) => {
     if (!id) return
-    await fetch(`/api/cakes/${id}`, { method: "DELETE" })
+    try {
+      await fetch(`/api/cakes/${id}`, { method: "DELETE" })
+      toastSuccess("Cake deleted successfully.")
+    }catch (err) {
+      console.error("Failed to delete cake:", err)
+      toastError("Failed to delete cake. Please try again later.")
+    }
     fetchCakes()
   }
 
