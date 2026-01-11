@@ -5,6 +5,7 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardFooter} from "@/components/ui/card";
+import {BouquetCardSkeleton} from "@/app/bouquet-gallery/BouquetCardSkeleton";
 
 interface Bouquet {
   _id: string
@@ -74,8 +75,10 @@ export default function BouquetGalleryPage() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {loading ? (
-                <div className="text-center py-12">
-                  <p className="text-amber-700 text-lg">Loading bouquets...</p>
+                <div className={'grid md:grid-cols-3 gap-8'}>
+                  {Array.from({length: 3}).map((_, i) => (
+                      <BouquetCardSkeleton key={i}/>
+                  ))}
                 </div>
             ) : bouquets.length === 0 ? (
                 <div className="text-center py-12">
